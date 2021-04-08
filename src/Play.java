@@ -14,8 +14,19 @@ class Play extends JFrame implements ActionListener {
 	static JFrame f; 
 
 	// main class 
-	public static void main(String[] args) 
-	{ 
+	public static void main(String[] args) { 
+
+		//Grid assignments
+		Grid TopRight = new Grid(1);
+		Grid TopMiddle = new Grid(2);
+		Grid TopLeft = new Grid(3);
+		Grid MiddleRight = new Grid(4);
+		Grid Centre = new Grid(5);
+		Grid MiddleLeft = new Grid(6);
+		Grid BottomRight = new Grid(7);
+		Grid BottomMiddle = new Grid(8);
+		Grid BottomLeft = new Grid(9);
+
 		// create a new frame 
 		f = new JFrame("frame"); 
 
