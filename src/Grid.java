@@ -5,6 +5,7 @@ public class Grid {
 
     public Grid(Integer id) {
         this.id = id;
+        this.picture = null;
     }
 
     public Integer getId() {
@@ -13,5 +14,9 @@ public class Grid {
 
     public void setPicture(String picture) {
         this.picture = picture;
+    }
+
+    public String getPicture() {
+        return this.picture;
     }
 }
