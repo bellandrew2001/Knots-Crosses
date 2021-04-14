@@ -1,36 +1,30 @@
-enum Colour {Blue, Red, Green, Yellow, Orange, Black, Purple, Pink}
-enum Piece {Knot, Cross}
 
 public class Player{
 
     String name;
-    Colour colour;
     Piece piece;
+    boolean turn;
 
-    public Player(String name, Colour colour, Piece piece) {
+    public Player(String name, Piece piece, boolean turn) {
         this.name = name;
-        this.colour = colour;
         this.piece = piece;
-    }
-
-    public static void main(String[] args) {
-        Player A = new Player("Andrew", Colour.Blue, Piece.Knot);
-
-        System.out.println(A.getName());
-        System.out.println(A.getColour());
-        System.out.println(A.getPiece());
+        this.turn = turn;
     }
 
     public String getName() {
         return this.name;
     }
 
-    public Colour getColour() {
-        return this.colour;
-    }
-
     public Piece getPiece() {
         return this.piece;
+    }
+
+    public boolean getTurn() {
+        return this.turn;
+    }
+
+    public void setTurn(boolean turn) {
+        this.turn = turn;
     }
 
 }

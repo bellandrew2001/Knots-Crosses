@@ -1,9 +1,9 @@
 // java Program to create a simple JWindow 
-import java.awt.event.*; 
-import java.awt.*; 
+import java.awt.event.*;
+import java.util.Random;
 import javax.swing.*; 
 
-
+enum Piece {Knot, Cross}
 class Play extends JFrame implements ActionListener { 
 
 	/**
@@ -13,6 +13,8 @@ class Play extends JFrame implements ActionListener {
 	/**
 	 *
 	 */
+
+	//Grid assignments
 	Grid TopRight = new Grid(1);
 	Grid TopMiddle = new Grid(2);
 	Grid TopLeft = new Grid(3);
@@ -26,10 +28,25 @@ class Play extends JFrame implements ActionListener {
 	// frame 
 	static JFrame f; 
 
+	static Player player;
+	static Player computer;
+
+	int moves = 0;
+
 	// main class 
 	public static void main(String[] args) { 
 
-		//Grid assignments
+		Random random = new Random();
+		int x = random.nextInt(1);
+
+		//x == 0 means Player goes first, x == 1 means Computer goes first
+		if (x == 0) {
+			player = new Player("Andrew", Piece.Knot, true);
+			computer = new Player("Computer", Piece.Cross, false);
+		} else { 
+			player = new Player("Andrew", Piece.Knot, false);
+			computer = new Player("Computer", Piece.Cross, true);
+		}
 		
 
 		// create a new frame 
@@ -41,18 +58,50 @@ class Play extends JFrame implements ActionListener {
 		// create a panel 
 		JPanel p = new JPanel(); 
 
-		JButton b = new JButton("click"); 
+		JButton tr = new JButton("Top Right");
+		JButton tm = new JButton("Top Middle");
+		JButton tl = new JButton("Top Left");
+
+		JButton mr = new JButton("Middle Right");
+		JButton c = new JButton("Centre");
+		JButton ml = new JButton("Middle Left");
+
+		JButton br = new JButton("Bottom Right");
+		JButton bm = new JButton("Bottom Middle");
+		JButton bl = new JButton("Bottom Left");
+
 
 		// add actionlistener to button 
-		b.addActionListener(s);
+		tr.addActionListener(s);
+		tm.addActionListener(s);
+		tl.addActionListener(s);
+
+		mr.addActionListener(s);
+		c.addActionListener(s);
+		ml.addActionListener(s);
+
+		br.addActionListener(s);
+		bm.addActionListener(s);
+		bl.addActionListener(s);
 
 		// add button to panel 
-		p.add(b);
+
+		p.add(tr);
+		p.add(tm);
+		p.add(tl);
+		
+		p.add(mr);
+		p.add(c);
+		p.add(ml);
+
+		p.add(br);
+		p.add(bm);
+		p.add(bl);
 
 		f.add(p); 
 
 		// set the size of frame 
-		f.setSize(400, 400); 
+		f.setSize(500, 500); 
 
 		f.setVisible(true);
 
@@ -63,33 +112,95 @@ class Play extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) 
 	{ 
 		String s = e.getActionCommand(); 
-		if (s.equals("click")) { 
-			// create a window 
-			JWindow w = new JWindow(f); 
+		if (s.equals("Top Right")) {
+			JWindow a = new JWindow(f);
+			Display(a, s);
+			a.setLocation(0, 100);
 
-			// set panel 
-			JPanel p = new JPanel(); 
+			if (moves >= 5) {
+				checkWin();
+			}
+			moves += 1;
 
-			// create a label 
-			JLabel l = new JLabel("this is a window"); 
+		} else if (s.equals("Top Middle")) {
+			JWindow a = new JWindow(f);
+			Display(a, s);
+			a.setLocation(190, 100);
 
-			// set border 
-			p.setBorder(BorderFactory.createLineBorder(Color.black)); 
+			if (moves >= 5) {
+				checkWin();
+			}
+			moves += 1;
 
-			p.add(l); 
-			w.add(p); 
+		} else if (s.equals("Top Left")) {
+			JWindow a = new JWindow(f);
+			Display(a, s);
+			a.setLocation(380, 100);
 
-			// set background 
-			p.setBackground(Color.blue); 
+			if (moves >= 5) {
+				checkWin();
+			}
+			moves += 1;
 
-			// setsize of window 
-			w.setSize(200, 100); 
+		} else if (s.equals("Middle Right")) {
+			JWindow a = new JWindow(f);
+			Display(a, s);
+			a.setLocation(0, 265);
 
-			// set visibility of window 
-			w.setVisible(true); 
+			if (moves >= 5) {
+				checkWin();
+			}
+			moves += 1;
 
-			// set location of window 
-			w.setLocation(100, 100); 
+		} else if (s.equals("Centre")) {
+			JWindow a = new JWindow(f);
+			Display(a, s);;
+			a.setLocation(190, 265);
+
+			if (moves >= 5) {
+				checkWin();
+			}
+			moves += 1;
+
+		} else if (s.equals("Middle Left")) {
+			JWindow a = new JWindow(f);
+			Display(a, s);
+			a.setLocation(380, 265);
+
+			if (moves >= 5) {
+				checkWin();
+			}
+			moves += 1;
+
+		} else if (s.equals("Bottom Right")) {
+			JWindow a = new JWindow(f);
+			Display(a, s);
+			a.setLocation(0, 430);
+
+			if (moves >= 5) {
+				checkWin();
+			}
+			moves += 1;
+
+		} else if (s.equals("Bottom Middle")) {
+			JWindow a = new JWindow(f);
+			Display(a, s);
+			a.setLocation(190, 430);
+
+			if (moves >= 5) {
+				checkWin();
+			}
+			moves += 1;
+
+		} else if (s.equals("Bottom Left")) {
+			JWindow a = new JWindow(f);
+			Display(a, s);
+			a.setLocation(380, 430);
+
+			if (moves >= 5) {
+				checkWin();
+			}
+			moves += 1;
 		}
 	}
 
@@ -125,5 +236,53 @@ class Play extends JFrame implements ActionListener {
 			} 
 		}
 		return false;
+	}
+
+	public void Display(JWindow a, String s){
+		JPanel b = new JPanel();
+		ImageIcon i = null;
+		String pic;
+
+		if (player.getTurn()) {
+			pic = String.valueOf(player.getPiece())+".jpg";
+			i = new ImageIcon(pic);
+			player.setTurn(false);
+			computer.setTurn(true);
+		} else {
+			pic = String.valueOf(computer.getPiece())+".jpg";
+			i = new ImageIcon(pic);
+			player.setTurn(true);
+			computer.setTurn(false);
+		}
+		
+		JLabel l = new JLabel(i);
+
+		switch(s){
+			case "Top Right":
+				TopRight.setPicture(pic);
+			case "Top Middle":
+				TopMiddle.setPicture(pic);
+			case "Top Left":
+				TopLeft.setPicture(pic);
+			case "Middle Right":
+				MiddleRight.setPicture(pic);
+			case "Centre":
+				Centre.setPicture(pic);
+			case "Middle Left":
+				MiddleLeft.setPicture(pic);
+			case "Bottom Right":
+				BottomRight.setPicture(pic);
+			case "Bottom Middle":
+				BottomMiddle.setPicture(pic);
+			case "Bottom Left":
+				BottomLeft.setPicture(pic);
+		}
+
+
+		b.add(l);
+		a.add(b);
+		
+		a.setSize(185, 160); 
+		a.setVisible(true);  
 	}
 } 
