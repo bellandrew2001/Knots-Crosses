@@ -1,4 +1,3 @@
-// java Program to create a simple JWindow 
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Random;
@@ -16,15 +15,15 @@ class Play extends JFrame implements ActionListener {
 	 */
 
 	//Grid assignments
-	static Grid TopRight = new Grid();
-	static Grid TopMiddle = new Grid();
-	static Grid TopLeft = new Grid();
-	static Grid MiddleRight = new Grid();
-	static Grid Centre = new Grid();
-	static Grid MiddleLeft = new Grid();
-	static Grid BottomRight = new Grid();
-	static Grid BottomMiddle = new Grid();
-	static Grid BottomLeft = new Grid();
+	static Grid TopRight;
+	static Grid TopMiddle;
+	static Grid TopLeft;
+	static Grid MiddleRight;
+	static Grid Centre;
+	static Grid MiddleLeft;
+	static Grid BottomRight;
+	static Grid BottomMiddle;
+	static Grid BottomLeft;
 
 	//frame 
 	static JFrame f; 
@@ -49,6 +48,15 @@ class Play extends JFrame implements ActionListener {
 
 	// main class 
 	public static void main(String[] args) { 
+		TopLeft = new Grid(null);
+		TopMiddle = new Grid(null);
+		TopRight = new Grid(null);
+		MiddleLeft = new Grid(null);
+		Centre = new Grid(null);
+		MiddleRight = new Grid(null);
+		BottomLeft = new Grid(null);
+		BottomMiddle = new Grid(null);
+		BottomRight = new Grid(null);
 
 		//list of maximum number of moves that can be made
 		//used for ease of the randomization of the computers moves
@@ -106,17 +114,17 @@ class Play extends JFrame implements ActionListener {
 		br.addActionListener(s);
 
 		// add buttons to panel 
-		p.add(tr);
-		p.add(tm);
 		p.add(tl);
+		p.add(tm);
+		p.add(tr);
 		
-		p.add(mr);
-		p.add(c);
 		p.add(ml);
+		p.add(c);
+		p.add(mr);
 
-		p.add(br);
-		p.add(bm);
 		p.add(bl);
+		p.add(bm);
+		p.add(br);
 
 		//add panel to the frame
 		f.add(p); 
@@ -135,7 +143,7 @@ class Play extends JFrame implements ActionListener {
 	// if button is pressed 
 	public void actionPerformed(ActionEvent e) { 
 		JWindow a = new JWindow(f);
-		JWindow c = new JWindow(f);
+		JWindow d = new JWindow(f);
 		int y = 0;
 
 		//name of button clicked
@@ -199,11 +207,11 @@ class Play extends JFrame implements ActionListener {
 			JLabel l = new JLabel("Player Wins!");
 
 			b.add(l);
-			c.add(b);
+			d.add(b);
 			
-			c.setSize(100, 100);
-			c.setLocation(250, 250);
-			c.setVisible(true);
+			d.setSize(100, 100);
+			d.setLocation(250, 250);
+			d.setVisible(true);
 			
 		} else {
 			computerMove();
@@ -215,10 +223,10 @@ class Play extends JFrame implements ActionListener {
 		moves_made += 1;
 		System.out.println(moves_made);
 		boolean win = false;
-		JWindow a = new JWindow(f);
-		JPanel b = new JPanel();
 
 		if (moves_made == 9) {
+			JWindow a = new JWindow(f);
+			JPanel b = new JPanel();
 			JLabel l = new JLabel("Draw");
 
 			b.add(l);
@@ -228,26 +236,8 @@ class Play extends JFrame implements ActionListener {
 			a.setLocation(250, 250);
 			a.setVisible(true);
 
-
 		} else if (moves_made >= 5) {
-			while (!win) {
-				//Vertical Patterns
-				win = checkGrid(TopRight, MiddleRight, BottomRight);
-				win = checkGrid(TopMiddle, Centre, BottomMiddle);
-				win = checkGrid(TopLeft, MiddleLeft, BottomLeft);
-
-				//Horizontal Patterns
-				win = checkGrid(TopLeft, TopMiddle, TopRight);
-				win = checkGrid(MiddleLeft, Centre, MiddleRight);
-				win = checkGrid(BottomLeft, BottomMiddle, BottomRight);
-
-				//Diagonal Patterns
-				win = checkGrid(BottomLeft, Centre, TopRight);
-				win = checkGrid(TopLeft, Centre, BottomRight);
-
-				//No Winning Pattern
-				break;
-			}
+			win = checkPatterns(1);
 		}
 		
 		//sets button visibility to false if the game has ended in a win
@@ -270,29 +260,37 @@ class Play extends JFrame implements ActionListener {
 		String a_pic = a.getPicture();
 		String b_pic = b.getPicture();
 		String c_pic = c.getPicture();
-		//System.out.println("--- \n");
+		
+		
+		//System.out.println(a_pic == "Knot.jpg");
+		//System.out.println(a.getPicture().equals(b.getPicture()));
+		
+
+		/*
+		 Issue may be here
+		 */
 
 		if ((a_pic != null) && (b_pic != null) && (c_pic != null)) {
-			if ((a_pic == b_pic) && (a_pic == c_pic) && (b_pic == c_pic)) {
+			if ((a.getPicture().equals(b.getPicture())) && (a.getPicture().equals(c.getPicture()))) {
 
-				//System.out.println(a_pic);
-				//System.out.println(b_pic);
-				//System.out.println(c_pic);
-				//System.out.println("this is true \n");
+				System.out.println(a_pic);
+				System.out.println(b_pic);
+				System.out.println(c_pic);
+				System.out.println("this is true \n");
 				return true;
 			} 
 		}
-		//System.out.println(a_pic);
-		//System.out.println(b_pic);
-		//System.out.println(c_pic);
-		//System.out.println("this is false \n");
+		System.out.println(a_pic);
+		System.out.println(b_pic);
+		System.out.println(c_pic);
+		System.out.println("this is false \n");
 		return false;
 	}
 
 	public static void Display(JWindow a, String s){
 		JPanel b = new JPanel();
-		ImageIcon i = null;
-		String pic = null;
+		ImageIcon i;
+		String pic;
 
 		if (player.getTurn()) {
 			pic = String.valueOf(player.getPiece())+".jpg";
@@ -310,27 +308,26 @@ class Play extends JFrame implements ActionListener {
 		
 		JLabel l = new JLabel(i);
 
-		switch(s){
-			case "Top Right":
-				TopRight.setPicture(pic);
-			case "Top Middle":
-				TopMiddle.setPicture(pic);
-			case "Top Left":
-				TopLeft.setPicture(pic);
-			case "Middle Right":
-				MiddleRight.setPicture(pic);
-			case "Centre":
-				Centre.setPicture(pic);
-			case "Middle Left":
-				MiddleLeft.setPicture(pic);
-			case "Bottom Right":
-				BottomRight.setPicture(pic);
-			case "Bottom Middle":
-				BottomMiddle.setPicture(pic);
-			case "Bottom Left":
-				BottomLeft.setPicture(pic);
-		}
 
+		if (s == "Top Left") {
+			TopLeft.setPicture(pic);
+		} else if (s == "Top Middle") {
+			TopMiddle.setPicture(pic);
+		} else if (s == "Top Right") {
+			TopRight.setPicture(pic);
+		} else if (s == "Middle Left") {
+			MiddleLeft.setPicture(pic);
+		} else if (s == "Centre") {
+			Centre.setPicture(pic);
+		} else if (s == "Middle Right") {
+			MiddleRight.setPicture(pic);
+		} else if (s == "Bottom Left") {
+			BottomLeft.setPicture(pic);
+		} else if (s == "Bottom Middle") {
+			BottomMiddle.setPicture(pic);
+		} else if (s == "Bottom Right") {
+			BottomRight.setPicture(pic);
+		}
 
 		b.add(l);
 		a.add(b);
@@ -343,7 +340,7 @@ class Play extends JFrame implements ActionListener {
 	public static void computerMove() {
 		Random random = new Random();
 		JWindow a = new JWindow(f);
-		JWindow c = new JWindow(f);
+		JWindow d = new JWindow(f);
 		int y = random.nextInt(moves_list.size());
 
 		if (moves_list.get(y) == 1) {
@@ -409,11 +406,68 @@ class Play extends JFrame implements ActionListener {
 			JLabel l = new JLabel("Computer Wins!");
 
 			b.add(l);
-			c.add(b);
+			d.add(b);
 			
-			c.setSize(100, 100);
-			c.setLocation(250, 250);
-			c.setVisible(true);
+			d.setSize(100, 100);
+			d.setLocation(250, 250);
+			d.setVisible(true);
 		}
 	}
-} 
+
+	public static boolean checkPatterns(int i){
+		boolean win = false;
+
+		//Vertical Patterns
+		if (i == 1) {
+			System.out.println("Checking: TopRight, MiddleRight, BottomRight");
+			win = checkGrid(TopRight, MiddleRight, BottomRight);
+			System.out.println(win);
+			System.out.println("--- \n");
+		} else if (i == 2) {
+			System.out.println("Checking: TopMiddle, Centre, BottomMiddle");
+			win = checkGrid(TopMiddle, Centre, BottomMiddle);
+			System.out.println(win);
+			System.out.println("--- \n");
+		} else if (i == 3) {
+			System.out.println("Checking: TopLeft, MiddleLeft, BottomLeft");
+			win = checkGrid(TopLeft, MiddleLeft, BottomLeft);
+			System.out.println(win);
+			System.out.println("--- \n");
+
+		//Horizontal Patterns
+		} else if (i == 4) {
+			System.out.println("Checking: TopLeft, TopMiddle, TopRight");
+			win = checkGrid(TopLeft, TopMiddle, TopRight);
+			System.out.println(win);
+			System.out.println("--- \n");
+		} else if (i == 5) {
+			System.out.println("Checking: MiddleLeft, Centre, MiddleRight");
+			win = checkGrid(MiddleLeft, Centre, MiddleRight);
+			System.out.println(win);
+			System.out.println("--- \n");
+		} else if (i == 6 ) {
+			System.out.println("Checking: BottomLeft, BottomMiddle, BottomRight");
+			win = checkGrid(BottomLeft, BottomMiddle, BottomRight);
+			System.out.println(win);
+			System.out.println("--- \n");
+
+		//Diagonal Patterns
+		}  else if (i == 7) {
+			System.out.println("Checking: BottomLeft, Centre, TopRight");
+			win = checkGrid(BottomLeft, Centre, TopRight);
+			System.out.println(win);
+			System.out.println("--- \n");
+		} else if (i == 8) {
+			System.out.println("Checking: TopLeft, Centre, BottomRight");
+			win = checkGrid(TopLeft, Centre, BottomRight);
+			System.out.println(win);
+			System.out.println("--- \n");
+		}
+
+		if (win || i == 8) {
+			return win;
+		}
+
+		return checkPatterns(i+1);
+	}
+}
