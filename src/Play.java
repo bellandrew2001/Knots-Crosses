@@ -39,6 +39,9 @@ class Play extends JFrame implements ActionListener {
 	static JButton bm;
 	static JButton bl;
 
+	static JButton start;
+	static JButton reset;
+
 	static Player player;
 	static Player computer;
 
@@ -57,25 +60,6 @@ class Play extends JFrame implements ActionListener {
 		BottomLeft = new Grid(null);
 		BottomMiddle = new Grid(null);
 		BottomRight = new Grid(null);
-
-		//list of maximum number of moves that can be made
-		//used for ease of the randomization of the computers moves
-		for (int i = 0; i <=9; i++) {
-			moves_list.add(i+1);
-		}
-
-		Random random = new Random();
-		int x = random.nextInt(2);
-
-		//x == 0 means Player goes first, x == 1 means Computer goes first
-		if (x == 0) {
-			player = new Player("Andrew", Piece.Knot, true);
-			computer = new Player("Computer", Piece.Cross, false);
-		} else { 
-			player = new Player("Andrew", Piece.Knot, false);
-			computer = new Player("Computer", Piece.Cross, true);
-		}
-		
 
 		// create a new frame 
 		f = new JFrame("frame"); 
@@ -99,6 +83,9 @@ class Play extends JFrame implements ActionListener {
 		bm = new JButton("Bottom Middle");
 		br = new JButton("Bottom Right");
 
+		start = new JButton("Start");
+		reset = new JButton("Reset");
+
 
 		// add actionlistener to button 
 		tl.addActionListener(s);
@@ -113,6 +100,9 @@ class Play extends JFrame implements ActionListener {
 		bm.addActionListener(s);
 		br.addActionListener(s);
 
+		start.addActionListener(s);
+		reset.addActionListener(s);
+
 		// add buttons to panel 
 		p.add(tl);
 		p.add(tm);
@@ -126,6 +116,9 @@ class Play extends JFrame implements ActionListener {
 		p.add(bm);
 		p.add(br);
 
+		p.add(start);
+		p.add(reset);
+
 		//add panel to the frame
 		f.add(p); 
 
@@ -134,89 +127,144 @@ class Play extends JFrame implements ActionListener {
 		f.setVisible(true);
 		f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-		//if computer goes first
-		if (computer.getTurn()) {
-			computerMove();
-		}
+		hideGridButtons();
+		reset.setVisible(false);
 	} 
 
 	// if button is pressed 
 	public void actionPerformed(ActionEvent e) { 
-		JWindow a = new JWindow(f);
-		JWindow d = new JWindow(f);
-		int y = 0;
-
 		//name of button clicked
 		String s = e.getActionCommand(); 
 
-		//displays piece of the player's move
-		Display(a, s);
+		if (s.equals("Start")) {
+			//list of maximum number of moves that can be made
+			//used for ease of the randomization of the computers moves
+			for (int i = 0; i <=9; i++) {
+				moves_list.add(i+1);
+			}
 
-		//determines where to display the piece based on what button was clicked
-		if (s.equals("Top Right")) {
-			a.setLocation(380, 100);
-			tr.setVisible(false);
-			y = moves_list.indexOf(3);
+			Random random = new Random();
+			int x = random.nextInt(2);
 
-		} else if (s.equals("Top Middle")) {
-			a.setLocation(190, 100);
-			tm.setVisible(false);
-			y = moves_list.indexOf(2);
+			//x == 0 means Player goes first, x == 1 means Computer goes first
+			if (x == 0) {
+				player = new Player("Andrew", Piece.Knot, true);
+				computer = new Player("Computer", Piece.Cross, false);
+			} else { 
+				player = new Player("Andrew", Piece.Knot, false);
+				computer = new Player("Computer", Piece.Cross, true);
+			}
 
-		} else if (s.equals("Top Left")) {
-			a.setLocation(0, 100);
-			tl.setVisible(false);
-			y = moves_list.indexOf(1);
+			tr.setVisible(true);
+			tm.setVisible(true);
+			tl.setVisible(true);
+			mr.setVisible(true);
+			c.setVisible(true);
+			ml.setVisible(true);
+			br.setVisible(true);
+			bm.setVisible(true);
+			bl.setVisible(true);
 
-		} else if (s.equals("Middle Right")) {
-			a.setLocation(380, 265);
-			mr.setVisible(false);
-			y = moves_list.indexOf(6);
+			start.setVisible(false);
 
-		} else if (s.equals("Centre")) {
-			a.setLocation(190, 265);
-			c.setVisible(false);
-			y = moves_list.indexOf(5);
+			//if computer goes first
+			if (computer.getTurn()) {
+				computerMove();
+			}
 
-		} else if (s.equals("Middle Left")) {
-			a.setLocation(0, 265);
-			ml.setVisible(false);
-			y = moves_list.indexOf(4);
-
-		} else if (s.equals("Bottom Right")) {
-			a.setLocation(380, 430);
-			br.setVisible(false);
-			y = moves_list.indexOf(9);
-
-		} else if (s.equals("Bottom Middle")) {
-			a.setLocation(190, 430);
-			bm.setVisible(false);
-			y = moves_list.indexOf(8);
-
-		} else if (s.equals("Bottom Left")) {
-			a.setLocation(0, 430);
-			bl.setVisible(false);
-			y = moves_list.indexOf(7);
-		}
-		moves_list.remove(y);
-
-		boolean win = checkWin();
-
-		if (win) {
-			JPanel b = new JPanel();
-			JLabel l = new JLabel("Player Wins!");
-
-			b.add(l);
-			d.add(b);
+		} else if (s.equals("Reset")) {
+			f.removeAll();
 			
-			d.setSize(100, 100);
-			d.setLocation(250, 250);
-			d.setVisible(true);
+			TopLeft.setPicture(null);
+			TopMiddle.setPicture(null);
+			TopRight.setPicture(null);
+			MiddleLeft.setPicture(null);
+			Centre.setPicture(null);
+			MiddleRight.setPicture(null);
+			BottomLeft.setPicture(null);
+			BottomMiddle.setPicture(null);
+			BottomRight.setPicture(null);
+
+			reset.setVisible(false);
+			start.setVisible(true);
+
 			
+
 		} else {
-			computerMove();
+
+			JWindow a = new JWindow(f);
+			JWindow d = new JWindow(f);
+			int y = 0;
+
+			//displays piece of the player's move
+			Display(a, s);
+
+			//determines where to display the piece based on what button was clicked
+			if (s.equals("Top Right")) {
+				a.setLocation(380, 100);
+				tr.setVisible(false);
+				y = moves_list.indexOf(3);
+
+			} else if (s.equals("Top Middle")) {
+				a.setLocation(190, 100);
+				tm.setVisible(false);
+				y = moves_list.indexOf(2);
+
+			} else if (s.equals("Top Left")) {
+				a.setLocation(0, 100);
+				tl.setVisible(false);
+				y = moves_list.indexOf(1);
+
+			} else if (s.equals("Middle Right")) {
+				a.setLocation(380, 265);
+				mr.setVisible(false);
+				y = moves_list.indexOf(6);
+
+			} else if (s.equals("Centre")) {
+				a.setLocation(190, 265);
+				c.setVisible(false);
+				y = moves_list.indexOf(5);
+
+			} else if (s.equals("Middle Left")) {
+				a.setLocation(0, 265);
+				ml.setVisible(false);
+				y = moves_list.indexOf(4);
+
+			} else if (s.equals("Bottom Right")) {
+				a.setLocation(380, 430);
+				br.setVisible(false);
+				y = moves_list.indexOf(9);
+
+			} else if (s.equals("Bottom Middle")) {
+				a.setLocation(190, 430);
+				bm.setVisible(false);
+				y = moves_list.indexOf(8);
+
+			} else if (s.equals("Bottom Left")) {
+				a.setLocation(0, 430);
+				bl.setVisible(false);
+				y = moves_list.indexOf(7);
+			}
+			moves_list.remove(y);
+
+			boolean win = checkWin();
+
+			if (win) {
+				JPanel b = new JPanel();
+				JLabel l = new JLabel("Player Wins!");
+
+				b.add(l);
+				d.add(b);
+			
+				d.setSize(100, 100);
+				d.setLocation(250, 250);
+				d.setVisible(true);
+
+				reset.setVisible(true);
+			} else {
+				computerMove();
+			}
 		}
-		
 	}
 
 	public static boolean checkWin() {
@@ -242,15 +290,7 @@ class Play extends JFrame implements ActionListener {
 		
 		//sets button visibility to false if the game has ended in a win
 		if (win) {
-			tr.setVisible(false);
-			tm.setVisible(false);
-			tl.setVisible(false);
-			mr.setVisible(false);
-			c.setVisible(false);
-			ml.setVisible(false);
-			br.setVisible(false);
-			bm.setVisible(false);
-			bl.setVisible(false);
+			hideGridButtons();
 		}
 		return win;
 	}
@@ -260,30 +300,21 @@ class Play extends JFrame implements ActionListener {
 		String a_pic = a.getPicture();
 		String b_pic = b.getPicture();
 		String c_pic = c.getPicture();
-		
-		
-		//System.out.println(a_pic == "Knot.jpg");
-		//System.out.println(a.getPicture().equals(b.getPicture()));
-		
-
-		/*
-		 Issue may be here
-		 */
 
 		if ((a_pic != null) && (b_pic != null) && (c_pic != null)) {
 			if ((a.getPicture().equals(b.getPicture())) && (a.getPicture().equals(c.getPicture()))) {
 
-				System.out.println(a_pic);
-				System.out.println(b_pic);
-				System.out.println(c_pic);
-				System.out.println("this is true \n");
+				// System.out.println(a_pic);
+				// System.out.println(b_pic);
+				// System.out.println(c_pic);
+				// System.out.println("this is true \n");
 				return true;
 			} 
 		}
-		System.out.println(a_pic);
-		System.out.println(b_pic);
-		System.out.println(c_pic);
-		System.out.println("this is false \n");
+		// System.out.println(a_pic);
+		// System.out.println(b_pic);
+		// System.out.println(c_pic);
+		// System.out.println("this is false \n");
 		return false;
 	}
 
@@ -331,7 +362,6 @@ class Play extends JFrame implements ActionListener {
 
 		b.add(l);
 		a.add(b);
-		//f.add(a);
 		
 		a.setSize(185, 160); 
 		a.setVisible(true);  
@@ -411,6 +441,8 @@ class Play extends JFrame implements ActionListener {
 			d.setSize(100, 100);
 			d.setLocation(250, 250);
 			d.setVisible(true);
+
+			reset.setVisible(true);
 		}
 	}
 
@@ -419,49 +451,24 @@ class Play extends JFrame implements ActionListener {
 
 		//Vertical Patterns
 		if (i == 1) {
-			System.out.println("Checking: TopRight, MiddleRight, BottomRight");
 			win = checkGrid(TopRight, MiddleRight, BottomRight);
-			System.out.println(win);
-			System.out.println("--- \n");
 		} else if (i == 2) {
-			System.out.println("Checking: TopMiddle, Centre, BottomMiddle");
 			win = checkGrid(TopMiddle, Centre, BottomMiddle);
-			System.out.println(win);
-			System.out.println("--- \n");
 		} else if (i == 3) {
-			System.out.println("Checking: TopLeft, MiddleLeft, BottomLeft");
 			win = checkGrid(TopLeft, MiddleLeft, BottomLeft);
-			System.out.println(win);
-			System.out.println("--- \n");
-
 		//Horizontal Patterns
 		} else if (i == 4) {
-			System.out.println("Checking: TopLeft, TopMiddle, TopRight");
 			win = checkGrid(TopLeft, TopMiddle, TopRight);
-			System.out.println(win);
-			System.out.println("--- \n");
 		} else if (i == 5) {
-			System.out.println("Checking: MiddleLeft, Centre, MiddleRight");
 			win = checkGrid(MiddleLeft, Centre, MiddleRight);
-			System.out.println(win);
-			System.out.println("--- \n");
 		} else if (i == 6 ) {
-			System.out.println("Checking: BottomLeft, BottomMiddle, BottomRight");
 			win = checkGrid(BottomLeft, BottomMiddle, BottomRight);
-			System.out.println(win);
-			System.out.println("--- \n");
 
 		//Diagonal Patterns
-		}  else if (i == 7) {
-			System.out.println("Checking: BottomLeft, Centre, TopRight");
+		} else if (i == 7) {
 			win = checkGrid(BottomLeft, Centre, TopRight);
-			System.out.println(win);
-			System.out.println("--- \n");
 		} else if (i == 8) {
-			System.out.println("Checking: TopLeft, Centre, BottomRight");
 			win = checkGrid(TopLeft, Centre, BottomRight);
-			System.out.println(win);
-			System.out.println("--- \n");
 		}
 
 		if (win || i == 8) {
@@ -469,5 +476,17 @@ class Play extends JFrame implements ActionListener {
 		}
 
 		return checkPatterns(i+1);
+	}
+
+	public static void hideGridButtons() {
+		tr.setVisible(false);
+		tm.setVisible(false);
+		tl.setVisible(false);
+		mr.setVisible(false);
+		c.setVisible(false);
+		ml.setVisible(false);
+		br.setVisible(false);
+		bm.setVisible(false);
+		bl.setVisible(false);
 	}
 }
