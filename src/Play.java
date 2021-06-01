@@ -1,4 +1,5 @@
 import java.awt.event.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.*; 
@@ -27,6 +28,7 @@ class Play extends JFrame implements ActionListener {
 
 	//frame 
 	static JFrame f; 
+	static JPanel p;
 
 	//buttons
 	static JButton tr;
@@ -62,13 +64,14 @@ class Play extends JFrame implements ActionListener {
 		BottomRight = new Grid(null);
 
 		// create a new frame 
-		f = new JFrame("frame"); 
+		f = new JFrame("Knots & Crosses"); 
 
 		// create a object 
 		Play s = new Play(); 
 
 		// create a panel 
-		JPanel p = new JPanel(); 
+		p = new JPanel(); 
+		p.setLayout(null);
 
 		//creates buttons for grid
 		tl = new JButton("Top Left");
@@ -107,24 +110,45 @@ class Play extends JFrame implements ActionListener {
 		p.add(tl);
 		p.add(tm);
 		p.add(tr);
+
+		tl.setBounds(765, 100, 120, 30);
+		tm.setBounds(885, 100, 120, 30);
+		tr.setBounds(1005, 100, 120, 30);
 		
 		p.add(ml);
 		p.add(c);
 		p.add(mr);
 
+		ml.setBounds(765, 140, 120, 30);
+		c.setBounds(885, 140, 120, 30);
+		mr.setBounds(1005, 140, 120, 30);
+
 		p.add(bl);
 		p.add(bm);
 		p.add(br);
 
+		bl.setBounds(765, 180, 120, 30);
+		bm.setBounds(885, 180, 120, 30);
+		br.setBounds(1005, 180, 120, 30);
+
 		p.add(start);
 		p.add(reset);
+
+		start.setBounds(800, 600, 90, 30);
+		reset.setBounds(900, 600, 90, 30);
+
+		JLabel l = new JLabel("test");
+		p.add(l);
 
 		//add panel to the frame
 		f.add(p); 
 
+		
+
 		// set the size of frame 
-		f.setSize(750, 750); 
+		f.setSize(1245, 690); 
 		f.setVisible(true);
+		f.setResizable(false);
 		f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
 		hideGridButtons();
@@ -173,8 +197,6 @@ class Play extends JFrame implements ActionListener {
 			}
 
 		} else if (s.equals("Reset")) {
-			f.removeAll();
-			
 			TopLeft.setPicture(null);
 			TopMiddle.setPicture(null);
 			TopRight.setPicture(null);
@@ -185,14 +207,16 @@ class Play extends JFrame implements ActionListener {
 			BottomMiddle.setPicture(null);
 			BottomRight.setPicture(null);
 
-			reset.setVisible(false);
+			//reset.setVisible(false);
 			start.setVisible(true);
-
 			
+			f.getContentPane().removeAll();
+			f.getContentPane().repaint();
 
 		} else {
 
-			JWindow a = new JWindow(f);
+			JLabel a = new JLabel();
+			//JWindow a = new JWindow(f);
 			JWindow d = new JWindow(f);
 			int y = 0;
 
@@ -201,51 +225,54 @@ class Play extends JFrame implements ActionListener {
 
 			//determines where to display the piece based on what button was clicked
 			if (s.equals("Top Right")) {
-				a.setLocation(380, 100);
+				a.setBounds(480, 100, 185, 160);
 				tr.setVisible(false);
 				y = moves_list.indexOf(3);
 
 			} else if (s.equals("Top Middle")) {
-				a.setLocation(190, 100);
+				a.setBounds(290, 100, 185, 160);
 				tm.setVisible(false);
 				y = moves_list.indexOf(2);
 
 			} else if (s.equals("Top Left")) {
-				a.setLocation(0, 100);
+				a.setBounds(100, 100, 185, 160);
 				tl.setVisible(false);
 				y = moves_list.indexOf(1);
 
 			} else if (s.equals("Middle Right")) {
-				a.setLocation(380, 265);
+				a.setBounds(480, 265, 185, 160);
 				mr.setVisible(false);
 				y = moves_list.indexOf(6);
 
 			} else if (s.equals("Centre")) {
-				a.setLocation(190, 265);
+				a.setBounds(290, 265, 185, 160);
 				c.setVisible(false);
 				y = moves_list.indexOf(5);
 
 			} else if (s.equals("Middle Left")) {
-				a.setLocation(0, 265);
+				a.setBounds(100, 265, 185, 160);
 				ml.setVisible(false);
 				y = moves_list.indexOf(4);
 
 			} else if (s.equals("Bottom Right")) {
-				a.setLocation(380, 430);
+				a.setBounds(480, 430, 185, 160);
 				br.setVisible(false);
 				y = moves_list.indexOf(9);
 
 			} else if (s.equals("Bottom Middle")) {
-				a.setLocation(190, 430);
+				a.setBounds(290, 430, 185, 160);
 				bm.setVisible(false);
 				y = moves_list.indexOf(8);
 
 			} else if (s.equals("Bottom Left")) {
-				a.setLocation(0, 430);
+				a.setBounds(100, 430, 185, 160);
 				bl.setVisible(false);
 				y = moves_list.indexOf(7);
 			}
 			moves_list.remove(y);
+
+			p.add(a);
+			f.repaint();
 
 			boolean win = checkWin();
 
@@ -284,6 +311,8 @@ class Play extends JFrame implements ActionListener {
 			a.setLocation(250, 250);
 			a.setVisible(true);
 
+			reset.setVisible(true);
+
 		} else if (moves_made >= 5) {
 			win = checkPatterns(1);
 		}
@@ -318,7 +347,7 @@ class Play extends JFrame implements ActionListener {
 		return false;
 	}
 
-	public static void Display(JWindow a, String s){
+	public static void Display(JLabel a, String s){
 		JPanel b = new JPanel();
 		ImageIcon i;
 		String pic;
@@ -337,7 +366,7 @@ class Play extends JFrame implements ActionListener {
 		
 		System.out.println(pic);
 		
-		JLabel l = new JLabel(i);
+		a.setIcon(i);
 
 
 		if (s == "Top Left") {
@@ -359,75 +388,73 @@ class Play extends JFrame implements ActionListener {
 		} else if (s == "Bottom Right") {
 			BottomRight.setPicture(pic);
 		}
-
-		b.add(l);
-		a.add(b);
-		
-		a.setSize(185, 160); 
-		a.setVisible(true);  
 	}
 
 	public static void computerMove() {
 		Random random = new Random();
-		JWindow a = new JWindow(f);
+		//JWindow a = new JWindow(f);
+		JLabel a = new JLabel();
 		JWindow d = new JWindow(f);
 		int y = random.nextInt(moves_list.size());
 
 		if (moves_list.get(y) == 1) {
 			Display(a, "Top Left");
-			a.setLocation(0, 100);
+			a.setBounds(100, 100, 185, 160);
 
 			tl.setVisible(false);
 
 		} else if (moves_list.get(y) == 2) {
 			Display(a, "Top Middle");
-			a.setLocation(190, 100);
+			a.setBounds(290, 100, 185, 160);
 
 			tm.setVisible(false);
 
 		} else if (moves_list.get(y) == 3) {
 			Display(a, "Top Right");
-			a.setLocation(380, 100);
+			a.setBounds(480, 100, 185, 160);
 
 			tr.setVisible(false);
 
 		} else if (moves_list.get(y) == 4) {
 			Display(a, "Middle Left");
-			a.setLocation(0, 265);
+			a.setBounds(100, 265, 185, 160);
 
 			ml.setVisible(false);
 
 		} else if (moves_list.get(y) == 5) {
 			Display(a, "Centre");
-			a.setLocation(190, 265);
+			a.setBounds(290, 265, 185, 160);
 
 			c.setVisible(false);
 
 		} else if (moves_list.get(y) == 6) {
 			Display(a, "Middle Right");
-			a.setLocation(380, 265);
+			a.setBounds(480, 265, 185, 160);
 
 			mr.setVisible(false);
 
 		} else if (moves_list.get(y) == 7) {
 			Display(a, "Bottom Left");
-			a.setLocation(0, 430);
+			a.setBounds(100, 430, 185, 160);
 
 			bl.setVisible(false);
 
 		} else if (moves_list.get(y) == 8) {
 			Display(a, "Bottom Middle");
-			a.setLocation(190, 430);
+			a.setBounds(290, 430, 185, 160);
 
 			bm.setVisible(false);
 
 		} else if(moves_list.get(y) == 9) {
 			Display(a, "Bottom Right");
-			a.setLocation(380, 430);
+			a.setBounds(480, 430, 185, 160);
 
 			br.setVisible(false);
 		}
 		moves_list.remove(y);
+
+		p.add(a);
+		f.repaint();
 
 		boolean win = checkWin();
 
