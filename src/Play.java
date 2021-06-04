@@ -169,10 +169,8 @@ class Play extends JFrame implements ActionListener {
 			start.setVisible(true);
 
 		} else {
-
 			JLabel a = new JLabel();
 			//JWindow a = new JWindow(f);
-			JWindow d = new JWindow(f);
 			int y = 0;
 
 			//displays piece of the player's move
@@ -232,15 +230,11 @@ class Play extends JFrame implements ActionListener {
 			boolean win = checkWin();
 
 			if (win) {
-				JPanel b = new JPanel();
 				JLabel l = new JLabel("Player Wins!");
 
-				b.add(l);
-				d.add(b);
-			
-				d.setSize(100, 100);
-				d.setLocation(250, 250);
-				d.setVisible(true);
+				l.setBounds(500, 500, 100, 160);
+				p.add(l);
+				f.repaint();
 
 				reset.setVisible(true);
 			} else {
@@ -255,16 +249,11 @@ class Play extends JFrame implements ActionListener {
 		boolean win = false;
 
 		if (moves_made == 9) {
-			JWindow a = new JWindow(f);
-			JPanel b = new JPanel();
 			JLabel l = new JLabel("Draw");
 
-			b.add(l);
-			a.add(b);
-
-			a.setSize(100, 100);
-			a.setLocation(250, 250);
-			a.setVisible(true);
+			l.setBounds(500, 500, 100, 160);
+			p.add(l);
+			f.repaint();
 
 			reset.setVisible(true);
 
@@ -287,23 +276,13 @@ class Play extends JFrame implements ActionListener {
 
 		if ((a_pic != null) && (b_pic != null) && (c_pic != null)) {
 			if ((a.getPicture().equals(b.getPicture())) && (a.getPicture().equals(c.getPicture()))) {
-
-				// System.out.println(a_pic);
-				// System.out.println(b_pic);
-				// System.out.println(c_pic);
-				// System.out.println("this is true \n");
 				return true;
 			} 
 		}
-		// System.out.println(a_pic);
-		// System.out.println(b_pic);
-		// System.out.println(c_pic);
-		// System.out.println("this is false \n");
 		return false;
 	}
 
 	public static void Display(JLabel a, String s){
-		JPanel b = new JPanel();
 		ImageIcon i;
 		String pic;
 
@@ -322,7 +301,6 @@ class Play extends JFrame implements ActionListener {
 		System.out.println(pic);
 		
 		a.setIcon(i);
-
 
 		if (s == "Top Left") {
 			TopLeft.setPicture(pic);
@@ -347,9 +325,7 @@ class Play extends JFrame implements ActionListener {
 
 	public static void computerMove() {
 		Random random = new Random();
-		//JWindow a = new JWindow(f);
 		JLabel a = new JLabel();
-		JWindow d = new JWindow(f);
 		int y = random.nextInt(moves_list.size());
 
 		if (moves_list.get(y) == 1) {
@@ -414,15 +390,11 @@ class Play extends JFrame implements ActionListener {
 		boolean win = checkWin();
 
 		if (win) {
-			JPanel b = new JPanel();
 			JLabel l = new JLabel("Computer Wins!");
 
-			b.add(l);
-			d.add(b);
-			
-			d.setSize(100, 100);
-			d.setLocation(250, 250);
-			d.setVisible(true);
+			l.setBounds(500, 500, 100, 160);
+			p.add(l);
+			f.repaint();
 
 			reset.setVisible(true);
 		}
