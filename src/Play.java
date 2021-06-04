@@ -1,5 +1,4 @@
 import java.awt.event.*;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.*; 
@@ -47,7 +46,7 @@ class Play extends JFrame implements ActionListener {
 	static Player player;
 	static Player computer;
 
-	static int moves_made = 0;
+	static int moves_made;
 	static ArrayList<Integer> moves_list = new ArrayList<Integer>();
 	
 
@@ -68,10 +67,6 @@ class Play extends JFrame implements ActionListener {
 
 		// create a object 
 		Play s = new Play(); 
-
-		// create a panel 
-		p = new JPanel(); 
-		p.setLayout(null);
 
 		//creates buttons for grid
 		tl = new JButton("Top Left");
@@ -106,53 +101,13 @@ class Play extends JFrame implements ActionListener {
 		start.addActionListener(s);
 		reset.addActionListener(s);
 
-		// add buttons to panel 
-		p.add(tl);
-		p.add(tm);
-		p.add(tr);
-
-		tl.setBounds(765, 100, 120, 30);
-		tm.setBounds(885, 100, 120, 30);
-		tr.setBounds(1005, 100, 120, 30);
-		
-		p.add(ml);
-		p.add(c);
-		p.add(mr);
-
-		ml.setBounds(765, 140, 120, 30);
-		c.setBounds(885, 140, 120, 30);
-		mr.setBounds(1005, 140, 120, 30);
-
-		p.add(bl);
-		p.add(bm);
-		p.add(br);
-
-		bl.setBounds(765, 180, 120, 30);
-		bm.setBounds(885, 180, 120, 30);
-		br.setBounds(1005, 180, 120, 30);
-
-		p.add(start);
-		p.add(reset);
-
-		start.setBounds(800, 600, 90, 30);
-		reset.setBounds(900, 600, 90, 30);
-
-		JLabel l = new JLabel("test");
-		p.add(l);
-
-		//add panel to the frame
-		f.add(p); 
-
-		
-
 		// set the size of frame 
 		f.setSize(1245, 690); 
 		f.setVisible(true);
 		f.setResizable(false);
 		f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-		hideGridButtons();
-		reset.setVisible(false);
+		resetFrame();
 	} 
 
 	// if button is pressed 
@@ -206,12 +161,12 @@ class Play extends JFrame implements ActionListener {
 			BottomLeft.setPicture(null);
 			BottomMiddle.setPicture(null);
 			BottomRight.setPicture(null);
-
-			//reset.setVisible(false);
-			start.setVisible(true);
 			
 			f.getContentPane().removeAll();
 			f.getContentPane().repaint();
+
+			resetFrame();
+			start.setVisible(true);
 
 		} else {
 
@@ -515,5 +470,50 @@ class Play extends JFrame implements ActionListener {
 		br.setVisible(false);
 		bm.setVisible(false);
 		bl.setVisible(false);
+	}
+
+	public static void resetFrame() {
+		// create a panel 
+		p = new JPanel(); 
+		p.setLayout(null);
+
+		// add buttons to panel 
+		p.add(tl);
+		p.add(tm);
+		p.add(tr);
+
+		tl.setBounds(765, 100, 120, 30);
+		tm.setBounds(885, 100, 120, 30);
+		tr.setBounds(1005, 100, 120, 30);
+		
+		p.add(ml);
+		p.add(c);
+		p.add(mr);
+
+		ml.setBounds(765, 140, 120, 30);
+		c.setBounds(885, 140, 120, 30);
+		mr.setBounds(1005, 140, 120, 30);
+
+		p.add(bl);
+		p.add(bm);
+		p.add(br);
+
+		bl.setBounds(765, 180, 120, 30);
+		bm.setBounds(885, 180, 120, 30);
+		br.setBounds(1005, 180, 120, 30);
+
+		p.add(start);
+		p.add(reset);
+
+		start.setBounds(800, 600, 90, 30);
+		reset.setBounds(900, 600, 90, 30);
+
+		//add panel to the frame
+		f.add(p); 
+		
+		hideGridButtons();
+		reset.setVisible(false);
+
+		moves_made = 0;
 	}
 }
