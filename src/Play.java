@@ -6,13 +6,8 @@ import javax.swing.*;
 enum Piece {Knot, Cross}
 class Play extends JFrame implements ActionListener { 
 
-	/**
-	 *
-	 */
+	//Unsure why needed but code does not run without it
 	private static final long serialVersionUID = 4280745301036645779L;
-	/**
-	 *
-	 */
 
 	//Grid assignments
 	static Grid TopRight;
@@ -25,7 +20,6 @@ class Play extends JFrame implements ActionListener {
 	static Grid BottomMiddle;
 	static Grid BottomLeft;
 
-	//frame 
 	static JFrame f; 
 	static JPanel p;
 
@@ -48,9 +42,7 @@ class Play extends JFrame implements ActionListener {
 
 	static int moves_made;
 	static ArrayList<Integer> moves_list = new ArrayList<Integer>();
-	
-
-	// main class 
+	 
 	public static void main(String[] args) { 
 		TopLeft = new Grid(null);
 		TopMiddle = new Grid(null);
@@ -62,10 +54,8 @@ class Play extends JFrame implements ActionListener {
 		BottomMiddle = new Grid(null);
 		BottomRight = new Grid(null);
 
-		// create a new frame 
-		f = new JFrame("Knots & Crosses"); 
-
-		// create a object 
+		 
+		f = new JFrame("Knots & Crosses");  
 		Play s = new Play(); 
 
 		//creates buttons for grid
@@ -84,7 +74,6 @@ class Play extends JFrame implements ActionListener {
 		start = new JButton("Start");
 		reset = new JButton("Reset");
 
-
 		// add actionlistener to button 
 		tl.addActionListener(s);
 		tm.addActionListener(s);
@@ -101,7 +90,7 @@ class Play extends JFrame implements ActionListener {
 		start.addActionListener(s);
 		reset.addActionListener(s);
 
-		// set the size of frame 
+		//frame specifications  
 		f.setSize(1245, 690); 
 		f.setVisible(true);
 		f.setResizable(false);
@@ -116,8 +105,8 @@ class Play extends JFrame implements ActionListener {
 		String s = e.getActionCommand(); 
 
 		if (s.equals("Start")) {
-			//list of maximum number of moves that can be made
-			//used for ease of the randomization of the computers moves
+			/*list of maximum number of moves that can be made,
+			used for ease of the randomization of the computers moves*/
 			for (int i = 0; i <=9; i++) {
 				moves_list.add(i+1);
 			}
@@ -134,16 +123,7 @@ class Play extends JFrame implements ActionListener {
 				computer = new Player("Computer", Piece.Cross, true);
 			}
 
-			tr.setVisible(true);
-			tm.setVisible(true);
-			tl.setVisible(true);
-			mr.setVisible(true);
-			c.setVisible(true);
-			ml.setVisible(true);
-			br.setVisible(true);
-			bm.setVisible(true);
-			bl.setVisible(true);
-
+			showGridButtons(true);
 			start.setVisible(false);
 
 			//if computer goes first
@@ -170,7 +150,6 @@ class Play extends JFrame implements ActionListener {
 
 		} else {
 			JLabel a = new JLabel();
-			//JWindow a = new JWindow(f);
 			int y = 0;
 
 			//displays piece of the player's move
@@ -222,8 +201,12 @@ class Play extends JFrame implements ActionListener {
 				bl.setVisible(false);
 				y = moves_list.indexOf(7);
 			}
+			
+			/*removes the number that corresponds to the button the player clicked so that the computer cannot
+			chose that grid again */
 			moves_list.remove(y);
 
+			//adds the image to the frame then redraws the frame to display image
 			p.add(a);
 			f.repaint();
 
@@ -232,10 +215,11 @@ class Play extends JFrame implements ActionListener {
 			if (win) {
 				JLabel l = new JLabel("Player Wins!");
 
-				l.setBounds(500, 500, 100, 160);
+				l.setBounds(800, 600, 100, 160);
 				p.add(l);
 				f.repaint();
 
+				l.setVisible(true);
 				reset.setVisible(true);
 			} else {
 				computerMove();
@@ -245,16 +229,16 @@ class Play extends JFrame implements ActionListener {
 
 	public static boolean checkWin() {
 		moves_made += 1;
-		System.out.println(moves_made);
 		boolean win = false;
 
 		if (moves_made == 9) {
 			JLabel l = new JLabel("Draw");
 
-			l.setBounds(500, 500, 100, 160);
+			l.setBounds(800, 600, 100, 160);
 			p.add(l);
 			f.repaint();
 
+			l.setVisible(true);
 			reset.setVisible(true);
 
 		} else if (moves_made >= 5) {
@@ -263,7 +247,7 @@ class Play extends JFrame implements ActionListener {
 		
 		//sets button visibility to false if the game has ended in a win
 		if (win) {
-			hideGridButtons();
+			showGridButtons(false);
 		}
 		return win;
 	}
@@ -323,6 +307,7 @@ class Play extends JFrame implements ActionListener {
 		}
 	}
 
+	//same functionality as with the player but randomized
 	public static void computerMove() {
 		Random random = new Random();
 		JLabel a = new JLabel();
@@ -331,55 +316,46 @@ class Play extends JFrame implements ActionListener {
 		if (moves_list.get(y) == 1) {
 			Display(a, "Top Left");
 			a.setBounds(100, 100, 185, 160);
-
 			tl.setVisible(false);
 
 		} else if (moves_list.get(y) == 2) {
 			Display(a, "Top Middle");
 			a.setBounds(290, 100, 185, 160);
-
 			tm.setVisible(false);
 
 		} else if (moves_list.get(y) == 3) {
 			Display(a, "Top Right");
 			a.setBounds(480, 100, 185, 160);
-
 			tr.setVisible(false);
 
 		} else if (moves_list.get(y) == 4) {
 			Display(a, "Middle Left");
 			a.setBounds(100, 265, 185, 160);
-
 			ml.setVisible(false);
 
 		} else if (moves_list.get(y) == 5) {
 			Display(a, "Centre");
 			a.setBounds(290, 265, 185, 160);
-
 			c.setVisible(false);
 
 		} else if (moves_list.get(y) == 6) {
 			Display(a, "Middle Right");
 			a.setBounds(480, 265, 185, 160);
-
 			mr.setVisible(false);
 
 		} else if (moves_list.get(y) == 7) {
 			Display(a, "Bottom Left");
 			a.setBounds(100, 430, 185, 160);
-
 			bl.setVisible(false);
 
 		} else if (moves_list.get(y) == 8) {
 			Display(a, "Bottom Middle");
 			a.setBounds(290, 430, 185, 160);
-
 			bm.setVisible(false);
 
 		} else if(moves_list.get(y) == 9) {
 			Display(a, "Bottom Right");
 			a.setBounds(480, 430, 185, 160);
-
 			br.setVisible(false);
 		}
 		moves_list.remove(y);
@@ -396,10 +372,12 @@ class Play extends JFrame implements ActionListener {
 			p.add(l);
 			f.repaint();
 
+			l.setVisible(true);
 			reset.setVisible(true);
 		}
 	}
 
+	//recursively checks all possible combinations that a win could result in
 	public static boolean checkPatterns(int i){
 		boolean win = false;
 
@@ -410,6 +388,7 @@ class Play extends JFrame implements ActionListener {
 			win = checkGrid(TopMiddle, Centre, BottomMiddle);
 		} else if (i == 3) {
 			win = checkGrid(TopLeft, MiddleLeft, BottomLeft);
+
 		//Horizontal Patterns
 		} else if (i == 4) {
 			win = checkGrid(TopLeft, TopMiddle, TopRight);
@@ -428,28 +407,25 @@ class Play extends JFrame implements ActionListener {
 		if (win || i == 8) {
 			return win;
 		}
-
 		return checkPatterns(i+1);
 	}
 
-	public static void hideGridButtons() {
-		tr.setVisible(false);
-		tm.setVisible(false);
-		tl.setVisible(false);
-		mr.setVisible(false);
-		c.setVisible(false);
-		ml.setVisible(false);
-		br.setVisible(false);
-		bm.setVisible(false);
-		bl.setVisible(false);
+	public static void showGridButtons(boolean hide) {
+		tr.setVisible(hide);
+		tm.setVisible(hide);
+		tl.setVisible(hide);
+		mr.setVisible(hide);
+		c.setVisible(hide);
+		ml.setVisible(hide);
+		br.setVisible(hide);
+		bm.setVisible(hide);
+		bl.setVisible(hide);
 	}
 
 	public static void resetFrame() {
-		// create a panel 
 		p = new JPanel(); 
 		p.setLayout(null);
 
-		// add buttons to panel 
 		p.add(tl);
 		p.add(tm);
 		p.add(tr);
@@ -480,10 +456,9 @@ class Play extends JFrame implements ActionListener {
 		start.setBounds(800, 600, 90, 30);
 		reset.setBounds(900, 600, 90, 30);
 
-		//add panel to the frame
 		f.add(p); 
 		
-		hideGridButtons();
+		showGridButtons(false);
 		reset.setVisible(false);
 
 		moves_made = 0;
