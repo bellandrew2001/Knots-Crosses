@@ -1,14 +1,8 @@
-## Getting Started
+This game can be accessed from the command line.
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+Just copy this repo to your local machine and then navigate to where the files are stored using the command line and run the java file from there
 
-## Folder Structure
+A JFrame should appear and then the game can be played as many times as you wish
 
-The workspace contains two folders by default, where:
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
-
-## Dependency Management
-
-The `JAVA DEPENDENCIES` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-pack/blob/master/release-notes/v0.9.0.md#work-with-jar-files-directly).
+This program was my first attempt at learning swing and the basics of a java GUI
